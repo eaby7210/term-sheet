@@ -22,7 +22,7 @@ class ContactServices:
         """
         Fetch contacts from GoHighLevel API with given parameters.
         """
-        print("get")
+        
         token_obj = OAuthServices.get_valid_access_token_obj()
         print(token_obj.expires_at)
         url = f"{BASE_URL}/contacts/"
@@ -123,3 +123,27 @@ class ContactServices:
                     unique_fields=["field_id", "object_id"],
                     update_fields=["field_value"],
                 )
+    
+    @staticmethod            
+    def retrieve_contact(id):
+        
+        """
+        Fetch contact from GoHighLevel API 
+        """
+        
+        token_obj = OAuthServices.get_valid_access_token_obj()
+        print(token_obj.expires_at)
+        url = f"{BASE_URL}/contacts/{id}"
+        headers = {
+            "Authorization": f"Bearer {token_obj.access_token}",
+            "Content-Type": "application/json",
+            "Version": API_VERSION,
+        }
+
+        response = requests.get(url, headers=headers)
+        print(response.status_code)
+        if response.status_code == 200:
+            return response.json().get("contact", [])
+        else:
+            raise ContactServiceError(f"API request failed: {response.status_code}")
+     

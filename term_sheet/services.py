@@ -70,6 +70,8 @@ class PipelineServices:
                     print(f"Pipeline '{name}' added.")
                 else:
                     print(f"Pipeline '{name}' updated.")
+    
+
 
 class OpportunityServices:
     
