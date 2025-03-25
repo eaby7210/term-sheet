@@ -12,7 +12,8 @@ from .services import PipelineServices
 from .forms import TermForm
 from .models import Opportunity,TermData, TermSheet,Pipeline
 from .serializers import (
-    OpportunitySerializer,TermDataSerializers,TermSheetSerializer)
+    OpportunitySerializer,TermDataSerializers,TermSheetSerializer,
+    TermDataRetriveSerializers)
 
 
 class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
@@ -95,12 +96,21 @@ class TermSheetView(FormView):
 
 class TermDataViewSet(viewsets.ModelViewSet):
     queryset = TermData.objects.all()
-    serializer_class = TermDataSerializers
-    lookup_field = "opportunity__ghl_id"
+    # serializer_class = TermDataSerializers
+    lookup_field = "opportunity"
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["loan_purpose", "loan_type", "property_type", "fico_score", "opportunity__ghl_id"]
     search_fields = ["borrower", "property_address", "opportunity__ghl_id"]
     ordering_fields = ["loan_amount", "interest_rate", "created_at"]
+    
+    def get_serializer_class(self):
+        if hasattr(self, 'action') and self.action in ['list', 'retrieve']:
+            return TermDataRetriveSerializers
+        elif hasattr(self, 'action') and self.action in ['create', 'update']:
+            return TermDataSerializers
+        return TermDataSerializers  
+
+        
     
 class TermSheetViewSet(viewsets.ModelViewSet):
     queryset = TermSheet.objects.all()

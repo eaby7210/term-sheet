@@ -6,7 +6,7 @@ class Contact(models.Model):
     id = models.CharField(max_length=50, primary_key=True)  # Contact ID from API
     first_name = models.CharField(max_length=100,null=True)
     last_name = models.CharField(max_length=100,null=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True,null=True, blank=True)
     phone = models.CharField(max_length=100,null=True, blank=True)
     country = models.CharField(max_length=10,null=True, blank=True)
     location_id = models.CharField(max_length=50, null=True, blank=True)
