@@ -23,7 +23,7 @@ class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ['ghl_id', 'name']
     lookup_field = "ghl_id"
     
-    @action(detail=False,method=["POST"], url_path='webhook')
+    @action(detail=False,methods=["POST"], url_path='webhook')
     def webhook(self, request):
         try:
             data = request.data
