@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django-bootstrap-v5 = "*"
+django = "*"
+requests = "*"
+psycopg2 = "*"
+djangorestframework = "*"
+django-filter = "*"
+django-cors-headers = "*"
+setuptools = "*"
+cryptography = "*"
+schedule = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

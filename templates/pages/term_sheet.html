@@ -1,0 +1,187 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<style>
+    .section-header {
+        background-color: #b1dddb;
+        /* Equivalent to Bootstrap $cyan-400 */
+
+    }
+</style>
+<form method="post" class="p-4 border rounded bg-light">
+    {% csrf_token %}
+
+    <!-- Deal Info -->
+    <h4 class="text-center py-2 section-header">Deal Info</h4>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label class="form-label me-2" for="{{ form.borrower.id_for_label }}"
+                    style="width: 150px;">Borrower</label>
+                <div class="flex-grow-1">
+                    {{ form.borrower }}
+                    <small class="text-danger">{{ form.borrower.errors }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="d-flex align-items-center">
+                <label class="form-label me-2" for="{{ form.property_address.id_for_label }}"
+                    style="width: 150px;">Property Address</label>
+                <div class="flex-grow-1">
+                    {{ form.property_address }}
+                    <small class="text-danger">{{ form.property_address.errors }}</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Deal Structure -->
+    <h4 class="text-center py-2 section-header">Deal Structure</h4>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.loan_purpose.id_for_label }}">Loan Purpose</label>
+            {{ form.loan_purpose }}
+            <small class="text-danger">{{ form.loan_purpose.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.as_is_value.id_for_label }}">As-Is Value</label>
+            {{ form.as_is_value }}
+            <small class="text-danger">{{ form.as_is_value.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.loan_amount.id_for_label }}">Loan Amount</label>
+            {{ form.loan_amount }}
+            <small class="text-danger">{{ form.loan_amount.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.rehab_cost.id_for_label }}">Rehab Cost</label>
+            {{ form.rehab_cost }}
+            <small class="text-danger">{{ form.rehab_cost.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.loan_to_value.id_for_label }}">Loan to Value</label>
+            {{ form.loan_to_value }}
+            <small class="text-danger">{{ form.loan_to_value.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.after_repaired_value.id_for_label }}">After Repaired Value</label>
+            {{ form.after_repaired_value }}
+            <small class="text-danger">{{ form.after_repaired_value.errors }}</small>
+        </div>
+    </div>
+
+    <!-- Loan Terms -->
+    <h4 class="text-center py-2 section-header">Loan Terms</h4>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.loan_type.id_for_label }}">Loan Type</label>
+            {{ form.loan_type }}
+            <small class="text-danger">{{ form.loan_type.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.interest_rate.id_for_label }}">Interest Rate</label>
+            {{ form.interest_rate }}
+            <small class="text-danger">{{ form.interest_rate.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.monthly_payment.id_for_label }}">Monthly Payment</label>
+            {{ form.monthly_payment }}
+            <small class="text-danger">{{ form.monthly_payment.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.prepayment_penalty.id_for_label }}">Prepayment Penalty</label>
+            {{ form.prepayment_penalty }}
+            <small class="text-danger">{{ form.prepayment_penalty.errors }}</small>
+        </div>
+    </div>
+
+    <!-- Loan Fees -->
+    <h4 class="text-center py-2 section-header">Loan Fees</h4>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.origination_cost.id_for_label }}">Origination Cost</label>
+            {{ form.origination_cost }}
+            <small class="text-danger">{{ form.origination_cost.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.cash_to_from_borrower.id_for_label }}">Cash to/from Borrower</label>
+            {{ form.cash_to_from_borrower }}
+            <small class="text-muted">{{ form.cash_to_from_borrower.help_text }}</small>
+            <small class="text-danger">{{ form.cash_to_from_borrower.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.lender_fee.id_for_label }}">Lender Fee</label>
+            {{ form.lender_fee }}
+            <small class="text-danger">{{ form.lender_fee.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.additional_liquidity.id_for_label }}">Additional Liquidity</label>
+            {{ form.additional_liquidity }}
+            <small class="text-danger">{{ form.additional_liquidity.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.processing_fee.id_for_label }}">Processing Fee</label>
+            {{ form.processing_fee }}
+            <small class="text-danger">{{ form.processing_fee.errors }}</small>
+        </div>
+    </div>
+
+    <!-- Property & Borrower Info -->
+    <h4 class="text-center py-2 section-header"></h4>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.property_type.id_for_label }}">Property Type</label>
+            {{ form.property_type }}
+            <small class="text-danger">{{ form.property_type.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.annual_taxes.id_for_label }}">Annual Taxes</label>
+            {{ form.annual_taxes }}
+            <small class="text-danger">{{ form.annual_taxes.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.fico_score.id_for_label }}">FICO Score</label>
+            {{ form.fico_score }}
+            <small class="text-danger">{{ form.fico_score.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.annual_insurance.id_for_label }}">Annual Insurance</label>
+            {{ form.annual_insurance }}
+            <small class="text-danger">{{ form.annual_insurance.errors }}</small>
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.bankruptcy_last_3yrs.id_for_label }}">Bankruptcy in Last 3
+                Years</label>
+            {{ form.bankruptcy_last_3yrs }}
+            <small class="text-danger">{{ form.bankruptcy_last_3yrs.errors }}</small>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label" for="{{ form.current_dscr.id_for_label }}">Current DSCR</label>
+            {{ form.current_dscr }}
+            <small class="text-danger">{{ form.current_dscr.errors }}</small>
+        </div>
+    </div>
+
+    <div class="mt-4 p-3 bg-light border rounded">
+        <p class="text-muted mb-0">
+            Cash to or from borrower listed above does not include appraisal, closing, legal,
+            title, and escrow related fees  for an estimation of these costs, contact the loan officer directly.
+        </p>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{%block title %}LGF - Term Sheet {% endblock title %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block head %}{% endblock head %}
+</head>
+
+<body>
+    <header>
+        {% block header %}
+        <div class="container-md">
+            <nav class="navbar navbar-light bg-light">
+                <div class="container d-flex flex-column align-items-center">
+                    <!-- Logo & Title in a Column Layout -->
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                        <!-- Left: Logo -->
+                        <a class="navbar-brand">
+
+                            <img src="{% static 'lfg/img/lgf.png'%}" alt="" width="85" height="75">
+                        </a>
+                        <!-- Center: Title -->
+                        <h2 class=" mb-0 mx-auto p-4">Term Sheet</h2>
+                        <!-- Right: Empty Space to Balance Flex -->
+                        <div style="width: 80px;"></div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        {% endblock header %}
+    </header>
+    <main class='container' id="main">
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+    <footer>
+        {% block footer %} {% endblock footer %}
+    </footer>
+</body>
+
+</html>
