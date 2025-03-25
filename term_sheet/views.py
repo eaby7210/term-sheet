@@ -115,7 +115,7 @@ class TermDataViewSet(viewsets.ModelViewSet):
 class TermSheetViewSet(viewsets.ModelViewSet):
     queryset = TermSheet.objects.all()
     serializer_class = TermSheetSerializer
-    lookup_field = "term_data__opportunity__ghl_id"
+    lookup_field = "term_data"
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["term_data__opportunity__ghl_id"]
     search_fields = ["term_data__borrower"]

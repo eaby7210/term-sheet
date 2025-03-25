@@ -36,29 +36,9 @@ class OpportunitySerializer(serializers.ModelSerializer):
 
 
 class TermSheetSerializer(serializers.ModelSerializer):
-    opportunity_ghl_id = serializers.SlugRelatedField(
-        queryset=TermData.objects.all(),
-        slug_field="opportunity__ghl_id",  # Refers to Opportunity's ghl_id via TermData
-        source="term_data"
-    )
-
     class Meta:
         model = TermSheet
-        fields = ["opportunity_ghl_id", "pdf_file"]
-
-    def create(self, validated_data):
-        opportunity_ghl_id = validated_data.pop("term_data")
-        term_data = TermData.objects.get(opportunity__ghl_id=opportunity_ghl_id)
-        return TermSheet.objects.create(term_data=term_data, **validated_data)
-
-    def update(self, instance, validated_data):
-        if "term_data" in validated_data:
-            opportunity_ghl_id = validated_data.pop("term_data")
-            instance.term_data = TermData.objects.get(opportunity__ghl_id=opportunity_ghl_id)
-        
-        return super().update(instance, validated_data)
-
-
+        fields = ['id', 'pdf_file','term_data']
 
 class TermDataSerializers(serializers.ModelSerializer):
     
@@ -66,6 +46,7 @@ class TermDataSerializers(serializers.ModelSerializer):
         model = TermData
         fields = [
             # Basic Info
+            "id",
             "borrower", "property_address",
             
             # Deal Structure
@@ -92,9 +73,11 @@ class TermDataSerializers(serializers.ModelSerializer):
 
 class TermDataRetriveSerializers(serializers.ModelSerializer):
     opportunity=OpportunitySerializer(read_only=True)
+    term_sheet = TermSheetSerializer(read_only=True)
     class Meta:
         model = TermData
         fields = [
+              "id",
             # Basic Info
             "borrower", "property_address",
             
@@ -118,4 +101,5 @@ class TermDataRetriveSerializers(serializers.ModelSerializer):
             "bankruptcy_last_3yrs", "current_dscr", "foreclosures_last_3yrs",
             "felonies_crimes",
             "opportunity",
+            "term_sheet"
         ]

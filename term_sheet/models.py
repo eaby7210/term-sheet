@@ -82,7 +82,7 @@ class TermData(models.Model):
 
 class TermSheet(models.Model):
     term_data = models.OneToOneField(TermData, on_delete=models.CASCADE, related_name='term_sheet')
-    pdf_file = models.FileField(upload_to='pdf_sheets/')
+    pdf_file = models.FileField(upload_to='pdf_sheets/',null=True, blank=True)
 
     def __str__(self):
         return f"PDF for {self.term_data.borrower} {self.term_data.opportunity.ghl_id}"
