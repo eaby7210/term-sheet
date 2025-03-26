@@ -46,7 +46,7 @@ class TermData(models.Model):
 
     # Loan Terms
     loan_type = models.CharField(max_length=50, db_index=True,null=True, blank=True)
-    interest_rate = models.DecimalField(max_digits=5, decimal_places=2,null=True, blank=True)
+    interest_rate = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     monthly_payment = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     prepayment_penalty = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
@@ -68,7 +68,7 @@ class TermData(models.Model):
     annual_hoa_dues = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     # Borrower History
-    current_dscr = models.DecimalField(max_digits=5, decimal_places=2,null=True, blank=True)
+    current_dscr = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     bankruptcy_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
     foreclosures_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
     felonies_crimes = models.CharField(max_length=255,null=True, blank=True)
