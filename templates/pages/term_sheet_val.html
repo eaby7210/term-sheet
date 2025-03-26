@@ -1,0 +1,290 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<style>
+    .p-4 {
+        padding: 1.5rem;
+    }
+
+    .p-3 {
+        padding: 1rem;
+    }
+
+    .mb-3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem;
+    }
+
+    .mx-3 {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    .border {
+        border: 1px solid #dee2e6;
+    }
+
+    .rounded {
+        border-radius: 0.25rem;
+    }
+
+    .bg-light {
+        background-color: #f8f9fa;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .text-danger {
+        color: #dc3545;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+
+    .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .form-group {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    .form-group label {
+        width: 200px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .form-group p {
+        margin: 0;
+        padding: 8px 12px;
+        background: #f8f9fa;
+        border-radius: 5px;
+        flex-grow: 1;
+    }
+
+    .section-header {
+        background-color: #b1dddb;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+<form method="post" class="p-4 border rounded bg-light">
+    {% csrf_token %}
+
+    <!-- Deal Info -->
+    <h4 class="section-header">Deal Info</h4>
+    <div class="mx-3 row mb-3 ">
+        <div class="col-md-6 form-group">
+            <label for="{{ form.borrower.id_for_label }}">Borrower</label>
+            <p>{{ form.borrower.value }}</p>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.property_address.id_for_label }}">Property Address</label>
+            <p>{{ form.property_address.value }}</p>
+        </div>
+    </div>
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6 form-group">
+            <label for="{{ form.property_address.id_for_label }}">Property Address</label>
+            <p>{{ form.property_address.value }}</p>
+        </div>
+
+    </div>
+
+    <!-- Deal Structure -->
+    <h4 class="section-header">Deal Structure</h4>
+    <div class="row mb-3 mx-3">
+        <!-- {% for field in form.visible_fields %}
+        <div class="col-md-6 form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <p>{{ field.value }}</p>
+        </div>
+        {% endfor %} -->
+        <div class="col-md-6 form-group">
+            <label for="{{ form.loan_purpose.id_for_label }}">Loan Purpose</label>
+            <p>{{ form.loan_purpose.value }}</p>
+            <small class="text-danger">{{ form.loan_purpose.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.as_is_value.id_for_label }}">As-Is Value</label>
+            <p>${{ form.as_is_value.value }}</p>
+            <small class="text-danger">{{ form.as_is_value.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.loan_amount.id_for_label }}">Loan Amount</label>
+            <p>{{ form.loan_amount.value }}</p>
+            <small class="text-danger">{{ form.loan_amount.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.rehab_cost.id_for_label }}">Rehab Cost</label>
+            <p>${{ form.rehab_cost.value }}</p>
+            <small class="text-danger">{{ form.rehab_cost.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.loan_to_value.id_for_label }}">Loan to Value</label>
+            <p>{{ form.loan_to_value.value }}%</p>
+            <small class="text-danger">{{ form.loan_to_value.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.after_repaired_value.id_for_label }}">After Repaired Value</label>
+            <p>${{ form.after_repaired_value.value }}</p>
+            <small class="text-danger">{{ form.after_repaired_value.errors }}</small>
+        </div>
+    </div>
+
+
+
+    <h4 class="section-header">Loan Terms</h4>
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6 form-group">
+            <label for="{{ form.loan_type.id_for_label }}">Loan Type</label>
+            <p>{{ form.loan_type.value }}</p>
+            <small class="text-danger">{{ form.loan_type.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.interest_rate.id_for_label }}">Interest Rate</label>
+            <p>{{ form.interest_rate.value }}%</p>
+            <small class="text-danger">{{ form.interest_rate.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.monthly_payment.id_for_label }}">Monthly Payment</label>
+            <p>${{ form.monthly_payment.value }}</p>
+            <small class="text-danger">{{ form.monthly_payment.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.prepayment_penalty.id_for_label }}">Prepayment Penalty</label>
+            <p>{{ form.prepayment_penalty.value }}</p>
+            <small class="text-danger">{{ form.prepayment_penalty.errors }}</small>
+        </div>
+    </div>
+
+    <!-- Loan Fees -->
+    <h4 class="section-header">Loan Fees</h4>
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6 form-group">
+            <label for="{{ form.origination_cost.id_for_label }}">Origination Cost</label>
+            <p>${{ form.origination_cost.value }}</p>
+            <small class="text-danger">{{ form.origination_cost.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.cash_to_from_borrower.id_for_label }}">Cash To(·)/ From(+) Borrower<sup>*</sup></label>
+            <p>${{ form.cash_to_from_borrower.value }}</p>
+            <small class="text-danger">{{ form.cash_to_from_borrower.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.lender_fee.id_for_label }}">Lender Fee</label>
+            <p>${{ form.lender_fee.value }}</p>
+            <small class="text-danger">{{ form.lender_fee.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.additional_liquidity.id_for_label }}">Additional Liquidity</label>
+            <p>{{ form.additional_liquidity.value }}</p>
+            <small class="text-danger">{{ form.additional_liquidity.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.processing_fee.id_for_label }}">Processing Fee</label>
+            <p>${{ form.processing_fee.value }}</p>
+            <small class="text-danger">{{ form.processing_fee.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <small class="text-muted"><sup>*</sup>{{ form.cash_to_from_borrower.help_text }}</small>
+        </div>
+    </div>
+
+    <!-- Property & Borrower Info -->
+    <h4 class="section-header"></h4>
+    <div class="row mb-3 mx-3">
+        <div class="col-md-6 form-group">
+            <label for="{{ form.property_type.id_for_label }}">Property Type</label>
+            <p>{{ form.property_type.value }}</p>
+            <small class="text-danger">{{ form.property_type.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.annual_taxes.id_for_label }}">Annual Taxes</label>
+            <p>${{ form.annual_taxes.value }}</p>
+            <small class="text-danger">{{ form.annual_taxes.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.fico_score.id_for_label }}">FICO Score</label>
+            <p>{{ form.fico_score.value }}</p>
+            <small class="text-danger">{{ form.fico_score.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.annual_insurance.id_for_label }}">Annual Insurance</label>
+            <p>${{ form.annual_insurance.value }}</p>
+
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.fair_market_rent.id_for_label }}">Fair Market Rent</label>
+            <p>{{ form.fair_market_rent.value }}</p>
+
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.annual_flood_insurance.id_for_label }}">Annual Flood Insurance</label>
+            <p>{{ form.annual_flood_insurance.value }}</p>
+            <small class="text-danger">{{ form.current_dscr.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.property_designation.id_for_label }}">Property Designation</label>
+            <p>{{ form.property_designation.value }}</p>
+
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.annual_hoa_dues.id_for_label }}">Annual HOA Dues</label>
+            <p>{{ form.annual_hoa_dues.value }}</p>
+            <small class="text-danger">{{ form.current_dscr.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.bankruptcy_last_3yrs.id_for_label }}">Bankruptcy in Last 3
+                Years</label>
+            <p>{{ form.bankruptcy_last_3yrs.value }}</p>
+
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.current_dscr.id_for_label }}">Current DSCR</label>
+            <p>{{ form.current_dscr.value }}</p>
+            <small class="text-danger">{{ form.current_dscr.errors }}</small>
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.foreclosures_last_3yrs.id_for_label }}">Foreclosures in last 3yrs</label>
+            <p>{{ form.foreclosures_last_3yrs.value }}</p>
+
+        </div>
+        <div class="col-md-6 form-group">
+            <label for="{{ form.felonies_crimes.id_for_label }}">Felonies/ Crimes</label>
+            <p>{{ form.felonies_crimes.value }}</p>
+            <small class="text-danger">{{ form.current_dscr.errors }}</small>
+        </div>
+    </div>
+
+
+
+
+    <div class="mt-4 p-3 bg-light border rounded">
+        <p class="text-muted mb-0">
+            Terms provided are an estimate and are subject to change if any of the factors listed in the deal
+            assumptions change.
+        </p>
+    </div>
+
+</form>
+
+{% endblock content %}

@@ -24,8 +24,8 @@ class Opportunity(models.Model):
 
 
 class TermData(models.Model):
-    borrower = models.CharField(max_length=255)
-    property_address = models.CharField(max_length=500)
+    borrower = models.CharField(max_length=255,null=True, blank=True)
+    property_address = models.CharField(max_length=500,null=True, blank=True)
 
     # Deal Structure
     # LOAN_PURPOSE_CHOICES = [
@@ -33,44 +33,45 @@ class TermData(models.Model):
     #     ('rental', 'Rental'),
     # ]
     loan_purpose = models.CharField(
-        max_length=20,
+        max_length=50,
         db_index=True,
+        null=True, blank=True
         # choices=LOAN_PURPOSE_CHOICES
         )
-    as_is_value = models.DecimalField(max_digits=10, decimal_places=2)
-    loan_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    as_is_value = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    loan_amount = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     rehab_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    loan_to_value = models.DecimalField(max_digits=5, decimal_places=2)
+    loan_to_value = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     after_repaired_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     # Loan Terms
-    loan_type = models.CharField(max_length=50, db_index=True)
-    interest_rate = models.DecimalField(max_digits=5, decimal_places=2)
-    monthly_payment = models.DecimalField(max_digits=10, decimal_places=2)
+    loan_type = models.CharField(max_length=50, db_index=True,null=True, blank=True)
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=2,null=True, blank=True)
+    monthly_payment = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     prepayment_penalty = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     # Loan Fees
-    origination_cost = models.DecimalField(max_digits=10, decimal_places=2)
-    cash_to_from_borrower = models.DecimalField(max_digits=10, decimal_places=2)
-    lender_fee = models.DecimalField(max_digits=10, decimal_places=2)
-    additional_liquidity = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    processing_fee = models.DecimalField(max_digits=10, decimal_places=2)
+    origination_cost = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    cash_to_from_borrower = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    lender_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    additional_liquidity = models.CharField(max_length=50, null=True, blank=True,null=True, blank=True)
+    processing_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
 
     # Property & Borrower Info
-    property_type = models.CharField(max_length=50)
-    annual_taxes = models.DecimalField(max_digits=10, decimal_places=2)
-    fico_score = models.IntegerField()
-    annual_insurance = models.DecimalField(max_digits=10, decimal_places=2)
-    fair_market_rent = models.DecimalField(max_digits=10, decimal_places=2)
+    property_type = models.CharField(max_length=50,null=True, blank=True)
+    annual_taxes = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    fico_score = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    annual_insurance = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    fair_market_rent = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     annual_flood_insurance = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    property_designation = models.CharField(max_length=100)
+    property_designation = models.CharField(max_length=100,null=True, blank=True)
     annual_hoa_dues = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     # Borrower History
-    current_dscr = models.DecimalField(max_digits=5, decimal_places=2)
-    bankruptcy_last_3yrs = models.CharField(max_length=255)
-    foreclosures_last_3yrs = models.CharField(max_length=255)
-    felonies_crimes = models.CharField(max_length=255)
+    current_dscr = models.DecimalField(max_digits=5, decimal_places=2,null=True, blank=True)
+    bankruptcy_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
+    foreclosures_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
+    felonies_crimes = models.CharField(max_length=255,null=True, blank=True)
     opportunity = models.OneToOneField(Opportunity, on_delete=models.CASCADE, related_name="term_data")
     # bankruptcy_last_3yrs = models.BooleanField(default=False)
     # foreclosures_last_3yrs = models.BooleanField(default=False)

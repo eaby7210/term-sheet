@@ -1,5 +1,9 @@
 from django.urls import path, include
-from .views import TermSheetView,OpportunityViewSet,TermDataViewSet,TermSheetViewSet
+from .views import (
+    TermSheetView,OpportunityViewSet,
+    TermDataViewSet,TermSheetViewSet,
+    TermSheetUpdateView
+    )
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -9,5 +13,7 @@ router.register(r'termsheet',TermSheetViewSet,basename='taermsheet')
 
 urlpatterns = [
     path("term-sheet/", TermSheetView.as_view(), name="term_sheet"),
-    path('api/',include(router.urls))
+    path('api/',include(router.urls)),
+    path("term-sheet/<str:opportunity_id>/", TermSheetUpdateView.as_view(), name="term_sheet_update"),
+
 ]

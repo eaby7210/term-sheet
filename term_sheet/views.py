@@ -1,7 +1,11 @@
 from django.apps import apps
 from django.urls import reverse_lazy
+from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
+from django.shortcuts import get_object_or_404
 from datetime import datetime
-from django.views.generic.edit import FormView
+import pdfkit
+from django.views.generic.edit import FormView, UpdateView
 from rest_framework.response import Response
 from rest_framework import viewsets,status
 from rest_framework.decorators import action
@@ -14,6 +18,8 @@ from .models import Opportunity,TermData, TermSheet,Pipeline
 from .serializers import (
     OpportunitySerializer,TermDataSerializers,TermSheetSerializer,
     TermDataRetriveSerializers)
+from xhtml2pdf import pisa
+from io import BytesIO
 
 
 class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
@@ -93,6 +99,21 @@ class TermSheetView(FormView):
     def form_valid(self, form):
         form.save()  # Save form data to database
         return super().form_valid(form)
+    
+
+
+class TermSheetUpdateView(UpdateView):
+    model = TermData
+    form_class = TermForm
+    template_name = "pages/term_sheet_val.html"
+    success_url = reverse_lazy("term_sheet_list")  # Redirect after successful update
+    lookup_field = "opportunity__ghl_id"
+
+    def get_object(self, queryset=None):
+        """Fetch the TermData object using the opportunity ID"""
+        opportunity_id = self.kwargs.get("opportunity_id")
+        return TermData.objects.get(opportunity__ghl_id=opportunity_id)
+
 
 class TermDataViewSet(viewsets.ModelViewSet):
     queryset = TermData.objects.all()
@@ -108,10 +129,50 @@ class TermDataViewSet(viewsets.ModelViewSet):
             return TermDataRetriveSerializers
         elif hasattr(self, 'action') and self.action in ['create', 'update']:
             return TermDataSerializers
-        return TermDataSerializers  
-
-        
+        return TermDataSerializers
     
+    
+    @action(detail=True, methods=["POST"], url_path='generate_pdf')
+    def generate_pdf(self, request, opportunity=None):
+        """Generate and store a PDF using Django's model system."""
+        term_data = get_object_or_404(TermData, opportunity__ghl_id=opportunity)
+        form = TermForm(instance=term_data)  # Populate form with existing data
+
+        # Render template to HTML
+        html_content = render_to_string("pages/term_sheet_val.html", {"form": form, "term_data": term_data})
+
+        # PDF options
+        options = {
+            "page-size": "A4",
+            "margin-top": "0in",
+            "margin-right": "0in",
+            "margin-bottom": "0in",
+            "margin-left": "0in",
+            "encoding": "UTF-8",
+            "enable-local-file-access": "",
+        }
+
+        try:
+            # Generate PDF as binary data
+            pdf_binary = pdfkit.from_string(html_content, False, options=options)
+
+            # Create or update the TermSheet object
+            term_sheet, created = TermSheet.objects.get_or_create(term_data=term_data)
+
+            # Save PDF using Django's FileField (ContentFile)
+            pdf_filename = f"pdf_sheets/term_sheet_{opportunity}.pdf"
+            term_sheet.pdf_file.save(pdf_filename, ContentFile(pdf_binary), save=True)
+
+            # Serialize the TermSheet object
+            serializer = TermSheetSerializer(term_sheet)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+        
 class TermSheetViewSet(viewsets.ModelViewSet):
     queryset = TermSheet.objects.all()
     serializer_class = TermSheetSerializer

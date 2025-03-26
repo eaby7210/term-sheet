@@ -31,7 +31,7 @@ class TermForm(forms.ModelForm):
         widgets = {
             'borrower': forms.TextInput(attrs={'class': 'form-control'}),
             'property_address': forms.TextInput(attrs={'class': 'form-control'}),
-            'loan_purpose': forms.Select(attrs={'class': 'form-select'}),
+            'loan_purpose': forms.TextInput(attrs={'class': 'form-select'}),
             'as_is_value': forms.NumberInput(attrs={'class': 'form-control'}),
             'loan_amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'rehab_cost': forms.NumberInput(attrs={'class': 'form-control'}),
