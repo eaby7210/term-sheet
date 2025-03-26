@@ -54,7 +54,7 @@ class TermData(models.Model):
     origination_cost = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     cash_to_from_borrower = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
     lender_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    additional_liquidity = models.CharField(max_length=50, null=True, blank=True,null=True, blank=True)
+    additional_liquidity = models.CharField(max_length=50, null=True, blank=True, blank=True)
     processing_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
 
     # Property & Borrower Info
