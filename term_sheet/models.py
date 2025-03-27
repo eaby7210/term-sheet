@@ -38,37 +38,37 @@ class TermData(models.Model):
         null=True, blank=True
         # choices=LOAN_PURPOSE_CHOICES
         )
-    as_is_value = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    loan_amount = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    rehab_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    loan_to_value = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    after_repaired_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    as_is_value = models.CharField(max_length=50, null=True, blank=True)
+    loan_amount = models.CharField(max_length=50, null=True, blank=True)
+    rehab_cost = models.CharField(max_length=50, null=True, blank=True)
+    loan_to_value = models.CharField(max_length=50, null=True, blank=True)
+    after_repaired_value = models.CharField(max_length=50, null=True, blank=True)
 
     # Loan Terms
     loan_type = models.CharField(max_length=50, db_index=True,null=True, blank=True)
-    interest_rate = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    monthly_payment = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    prepayment_penalty = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    interest_rate = models.CharField(max_length=50, null=True, blank=True)
+    monthly_payment = models.CharField(max_length=50, null=True, blank=True)
+    prepayment_penalty = models.CharField(max_length=50, null=True, blank=True)
 
     # Loan Fees
-    origination_cost = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    cash_to_from_borrower = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    lender_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    origination_cost = models.CharField(max_length=50, null=True, blank=True)
+    cash_to_from_borrower = models.CharField(max_length=50, null=True, blank=True)
+    lender_fee = models.CharField(max_length=50, null=True, blank=True)
     additional_liquidity = models.CharField(max_length=50, null=True, blank=True)
-    processing_fee = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    processing_fee = models.CharField(max_length=50, null=True, blank=True)
 
     # Property & Borrower Info
     property_type = models.CharField(max_length=50,null=True, blank=True)
-    annual_taxes = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    fico_score = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    annual_insurance = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    fair_market_rent = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
-    annual_flood_insurance = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    annual_taxes = models.CharField(max_length=50, null=True, blank=True)
+    fico_score = models.CharField(max_length=50, null=True, blank=True)
+    annual_insurance = models.CharField(max_length=50, null=True, blank=True)
+    fair_market_rent = models.CharField(max_length=50, null=True, blank=True)
+    annual_flood_insurance = models.CharField(max_length=50, null=True, blank=True)
     property_designation = models.CharField(max_length=100,null=True, blank=True)
-    annual_hoa_dues = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    annual_hoa_dues = models.CharField(max_length=50, null=True, blank=True)
 
     # Borrower History
-    current_dscr = models.DecimalField(max_digits=10, decimal_places=2,null=True, blank=True)
+    current_dscr = models.CharField(max_length=50, null=True, blank=True)
     bankruptcy_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
     foreclosures_last_3yrs = models.CharField(max_length=255,null=True, blank=True)
     felonies_crimes = models.CharField(max_length=255,null=True, blank=True)
