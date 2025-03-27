@@ -1,10 +1,13 @@
 from django.apps import apps
 from django.urls import reverse_lazy
+from rest_framework.views import APIView
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 import pdfkit
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import FormView, UpdateView
 from rest_framework.response import Response
 from rest_framework import viewsets,status
@@ -22,6 +25,7 @@ from xhtml2pdf import pisa
 from io import BytesIO
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Opportunity.objects.all()
     serializer_class = OpportunitySerializer
@@ -30,8 +34,12 @@ class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
     search_fields = ['ghl_id', 'name']
     lookup_field = "ghl_id"
     
-    @action(detail=False,methods=["POST"], url_path='webhook')
-    def webhook(self, request):
+
+
+class OpportunityWebhookAPIView(APIView):
+    """Handles Opportunity webhooks from GHL"""
+
+    def post(self, request):
         try:
             data = request.data
             ghl_id = data.get("id")
@@ -40,22 +48,24 @@ class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
             contact_id = data.get("contactId")
             status_value = data.get("status")
             created_at = data.get("dateAdded")
-            
+
+            # Validate required fields
             if not all([ghl_id, name, pipeline_id, status_value, created_at]):
                 return Response({"error": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
-            
-            
+
+            # Get or pull the pipeline
             pipeline = Pipeline.objects.filter(ghl_id=pipeline_id).first()
             if not pipeline:
                 PipelineServices.pull_pipelines()
                 pipeline = Pipeline.objects.filter(ghl_id=pipeline_id).first()
                 if not pipeline:
                     return Response({"error": "Pipeline not found"}, status=status.HTTP_400_BAD_REQUEST)
-            
+
+            # Get or create the contact
             Contact = apps.get_model('contacts', 'Contact')
             contact = None
             if contact_id:
-                contact = Contact.objects.filter(ghl_id=contact_id).first()
+                contact = Contact.objects.filter(id=contact_id).first()
                 if not contact:
                     contact_data = ContactServices.retrieve_contact(contact_id)
                     if contact_data:
@@ -68,11 +78,12 @@ class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
                             country=contact_data.get("country", ""),
                             location_id=contact_data.get("locationId", ""),
                             type=contact_data.get("type", "lead"),
-                            date_added=datetime.fromisoformat(contact["dateAdded"].replace("Z", "+00:00")) if contact.get("dateAdded") else None,
-                            date_updated=datetime.fromisoformat(contact["dateUpdated"].replace("Z", "+00:00")) if contact.get("dateUpdated") else None,
+                            date_added=datetime.fromisoformat(contact_data["dateAdded"].replace("Z", "+00:00")) if contact_data.get("dateAdded") else None,
+                            date_updated=datetime.fromisoformat(contact_data["dateUpdated"].replace("Z", "+00:00")) if contact_data.get("dateUpdated") else None,
                             dnd=contact_data.get("dnd", False),
                         )
-            
+
+            # Create or update the Opportunity
             opportunity, created = Opportunity.objects.update_or_create(
                 ghl_id=ghl_id,
                 defaults={
@@ -83,12 +94,12 @@ class OpportunityViewSet(viewsets.ReadOnlyModelViewSet):
                     "created_at": created_at,
                 },
             )
-            
+
             return Response({"message": "Opportunity processed", "created": created}, status=status.HTTP_200_OK)
-        
+
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-     
+
 
 
 class TermSheetView(FormView):
