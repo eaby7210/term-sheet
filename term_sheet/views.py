@@ -96,12 +96,12 @@ class OpportunityWebhookAPIView(APIView):
                 Contact = apps.get_model('contacts', 'Contact')
                 contact = None
                 if contact_id:
-                    contact = Contact.objects.filter(ghl_id=contact_id).first()
+                    contact = Contact.objects.filter(id=contact_id).first()
                     if not contact:
                         contact_data = ContactServices.retrieve_contact(contact_id)
                         if contact_data:
                             contact = Contact.objects.create(
-                                ghl_id=contact_data.get("id"),
+                                id=contact_data.get("id"),
                                 first_name=contact_data.get("firstName", ""),
                                 last_name=contact_data.get("lastName", ""),
                                 email=contact_data.get("email", ""),
