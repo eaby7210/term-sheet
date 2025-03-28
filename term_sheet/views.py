@@ -44,7 +44,7 @@ class OpportunityWebhookAPIView(APIView):
     def post(self, request):
         try:
             data = request.data
-            webhook_id = data.get("id")  
+            webhook_id = data.get("webhookId")  
             if not webhook_id:
                 return Response({"error": "Missing webhook ID"}, status=status.HTTP_400_BAD_REQUEST)
             WebhookLog = apps.get_model('contacts', 'WebhookLog')
