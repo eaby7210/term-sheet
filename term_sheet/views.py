@@ -51,6 +51,7 @@ class OpportunityWebhookAPIView(APIView):
 
             # Validate required fields
             if not all([ghl_id, name, pipeline_id, status_value, created_at]):
+                print("Missing required fields")
                 return Response({"error": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
 
             # Get or pull the pipeline
@@ -59,6 +60,7 @@ class OpportunityWebhookAPIView(APIView):
                 PipelineServices.pull_pipelines()
                 pipeline = Pipeline.objects.filter(ghl_id=pipeline_id).first()
                 if not pipeline:
+                    print("Pipeline not found")
                     return Response({"error": "Pipeline not found"}, status=status.HTTP_400_BAD_REQUEST)
 
             # Get or create the contact
@@ -94,10 +96,11 @@ class OpportunityWebhookAPIView(APIView):
                     "created_at": created_at,
                 },
             )
-
+            print(f"Opportunity {name} processed")
             return Response({"message": "Opportunity processed", "created": created}, status=status.HTTP_200_OK)
 
         except Exception as e:
+            print(str(e))
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
