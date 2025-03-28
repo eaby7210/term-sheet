@@ -46,22 +46,24 @@ class OpportunityWebhookAPIView(APIView):
             data = request.data
             webhook_id = data.get("webhookId")  
             if not webhook_id:
+                print("Missing webhook ID")
                 return Response({"error": "Missing webhook ID"}, status=status.HTTP_400_BAD_REQUEST)
             WebhookLog = apps.get_model('contacts', 'WebhookLog')
             if WebhookLog.objects.filter(webhook_id=webhook_id).exists():
                 print("Duplicate webhook ID")
                 return Response({"error": "Duplicate webhook ID"}, status=status.HTTP_400_BAD_REQUEST)
 
-            created_at = data.get("dateAdded")
-            if not created_at:
+            timestamp_at = data.get("timestamp")
+            if not timestamp_at:
+                print("Missing timestamp")
                 return Response({"error": "Missing timestamp"}, status=status.HTTP_400_BAD_REQUEST)
             
-            created_at_dt = parse_datetime(created_at)
-            if not created_at_dt:
+            timestamp_at_dt = parse_datetime(timestamp_at)
+            if not timestamp_at_dt:
                 return Response({"error": "Invalid timestamp format"}, status=status.HTTP_400_BAD_REQUEST)
 
-            created_at_dt = created_at_dt.replace(tzinfo=timezone.utc)
-            time_difference = datetime.now(timezone.utc) - created_at_dt
+            timestamp_at_dt = timestamp_at_dt.replace(tzinfo=timezone.utc)
+            time_difference = datetime.now(timezone.utc) - timestamp_at_dt
             if time_difference > timedelta(minutes=5):
                 return Response({"error": "Webhook request is too old"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -71,7 +73,10 @@ class OpportunityWebhookAPIView(APIView):
             pipeline_id = data.get("pipelineId")
             contact_id = data.get("contactId")
             status_value = data.get("status")
-
+            created_at = data.get("dateAdded")
+            created_at_dt = parse_datetime(created_at)
+            created_at_dt = created_at_dt.replace(tzinfo=timezone.utc)
+          
             if not all([ghl_id, name, pipeline_id, status_value]):
                 return Response({"error": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
 
