@@ -69,12 +69,14 @@ class OAuthServices:
         """
         
         token_obj = OAuthToken.objects.first()
-        response = requests.post(TOKEN_URL, data={
+        payload = {
             'grant_type': 'refresh_token',
             'client_id': settings.CLIENT_ID,
             'client_secret': settings.CLIENT_SECRET,
             'refresh_token': token_obj.refresh_token
-        })
+        }
+        print(f"payload: {payload}")
+        response = requests.post(TOKEN_URL, data=payload)
 
         if response.status_code != 200:
             raise OAuthTokenError(f"Failed to refresh access token: {response.json()}")

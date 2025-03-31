@@ -15,7 +15,7 @@ def refresh_token():
 # Function to start the scheduler
 def run_scheduler():
     
-    schedule.every(15).hours.do(refresh_token)
+    schedule.every(15).minutes.do(refresh_token)
     # schedule.every(10).minutes.do(periodic_task)
     # schedule.every(5).seconds.do(periodic_task)
     
