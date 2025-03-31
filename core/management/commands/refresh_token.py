@@ -5,7 +5,6 @@ class Command(BaseCommand):
     help = "Fetch a fresh access token using the provided authorization code."
 
     def handle(self, *args, **kwargs):
-        auth_code = kwargs["auth_code"]
         
         try:
             access_token = OAuthServices.refresh_access_token()
