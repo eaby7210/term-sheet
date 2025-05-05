@@ -18,6 +18,7 @@ class OpportunitySerializer(serializers.ModelSerializer):
     contact_id = serializers.PrimaryKeyRelatedField(
         queryset=Contact.objects.all(), source="contact", write_only=True, allow_null=True
     )
+    custom_fields = serializers.SerializerMethodField()
 
     class Meta:
         model = Opportunity
@@ -32,7 +33,15 @@ class OpportunitySerializer(serializers.ModelSerializer):
             "status",
             "created_at",
             "updated_at",
+            "custom_fields",
         ]
+    def get_custom_fields(self, obj):
+        custom_fields = {}
+        for custom_value in obj.custom_field_values.all():
+            field_key = custom_value.custom_field.field_key
+            value = custom_value.value
+            custom_fields[field_key.split('.')[1]] = value
+        return custom_fields
 
 
 class TermSheetSerializer(serializers.ModelSerializer):

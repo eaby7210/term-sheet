@@ -15,11 +15,9 @@ class Contact(models.Model):
     date_updated = models.DateTimeField(auto_now=True)  
     dnd = models.BooleanField(default=False)
 
-
- 
-    
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.email})"
+
 
 class WebhookLog(models.Model):
     webhook_id = models.CharField(max_length=255, unique=True)
@@ -28,6 +26,17 @@ class WebhookLog(models.Model):
     def __str__(self):
         return f"{self.webhook_id} : {self.received_at}"
 
+
+class ContactCustomFieldValue(models.Model):
+    contact = models.ForeignKey('Contact', on_delete=models.CASCADE, related_name='custom_field_values')
+    custom_field = models.ForeignKey('core.CustomField', on_delete=models.CASCADE)
+    value = models.JSONField( null=True, blank=True)
+
+    class Meta:
+        unique_together = ('contact', 'custom_field')
+
+    def __str__(self):
+        return f"{self.contact.name} - {self.custom_field.name}: {self.value}"
 
 
 

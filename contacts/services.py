@@ -146,4 +146,5 @@ class ContactServices:
             return response.json().get("contact", [])
         else:
             raise ContactServiceError(f"API request failed: {response.status_code}")
-     
+
+
