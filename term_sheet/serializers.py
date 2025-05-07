@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from contacts.serializers import ContactSerializer
-from .models import TermData,Pipeline, Opportunity, TermSheet
+from .models import TermData,Pipeline, Opportunity, TermSheet,PreApproval, PreApprovalSheet
 from contacts.models import Contact
 
 class PipelineSerializer(serializers.ModelSerializer):
@@ -111,4 +111,57 @@ class TermDataRetriveSerializers(serializers.ModelSerializer):
             "felonies_crimes",
             "opportunity",
             "term_sheet"
+        ]
+ 
+
+class PreApprovalPDFSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreApprovalSheet
+        fields = [
+            "id", "pre_approval", "pdf_file"
+        ]
+
+       
+        
+class PreApprovalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PreApproval
+        fields = [
+            'id',
+            'date',
+            'address',
+            'llc_name',
+            'purchase_price',
+            'loan_type',
+            'loan_term',
+            'loan_amount',
+            'rate_apr',
+            'occupancy',
+            'applicant',
+            'created_at',
+            'updated_at',
+            'opportunity',
+        ]
+
+class PreApprovaRetrieveSerializer(serializers.ModelSerializer):
+    opportunity=OpportunitySerializer(read_only=True)
+    pre_approval_sheet = PreApprovalPDFSerializer(read_only=True)
+    class Meta:
+        model = PreApproval
+        fields = [
+            'id',
+            'date',
+            'address',
+            'llc_name',
+            'purchase_price',
+            'loan_type',
+            'loan_term',
+            'loan_amount',
+            'rate_apr',
+            'occupancy',
+            'applicant',
+            'created_at',
+            'updated_at',
+            'opportunity',
+            'pre_approval_sheet',
         ]

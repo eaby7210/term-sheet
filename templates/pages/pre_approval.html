@@ -1,0 +1,155 @@
+{% extends 'index.html' %}
+
+{% block head %}
+<style>
+    .thick-hr {
+      border: 3px;
+      height: 8px;
+      background-color: #000; /* You can change the color */
+      margin: 0;
+    }
+    .bg-lfggreen{
+        color:#2f9285;
+    }
+    .bg-lfgblue{
+        color:#6cb8bb;
+    }
+    .border-lfgblue{
+      border-color: #4fbcbe !important;
+    }
+  </style>
+{% endblock head %}
+
+{% block header %}
+
+<div class="container">
+<div class="d-flex justify-content-between align-items-start mt-4 border-dark border-bottom border-2 pb-2">
+    <!-- Logo on the left -->
+    <div>
+      <img src="https://link.kicknsaas.com/static/lfg/img/lgf.png" alt="Logo" class="img-fluid" width="160" height="120">
+    </div>
+
+    <!-- Top-aligned text on the right -->
+    <div class="text-end h4 fw-bold bg-lfggreen" >
+      <p class="mb-0 ">PRE- QUALIFICATION LETTER</p>
+    </div>
+  </div>
+ 
+</div>
+{% endblock header %}
+{% block content %}
+<div class="container">
+<div class="border-lfgblue mt-4 border-3 border-bottom ">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between" style="min-height: 80px;">
+        <!-- Left-aligned bottom -->
+        <div class="align-self-end">
+          <p class="mb-0 bg-lfgblue fw-bold">Applicant(s):</p>
+        </div>
+
+        <!-- Center-aligned center -->
+        <div class="align-self-center text-center">
+          <p class="mb-0 fw-bold">(Name)</p>
+            <p class="mb-0 fw-bold"> (Property Address)</p>
+        </div>
+
+        <!-- Right-aligned top -->
+        <div class="align-self-start text-end">
+          <p class="mb-0 fw-bold bg-lfggreen">01/01/01</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="border-lfgblue my-1 border-3 border-bottom ">
+  <p>This pre-qualification is based on the information that the applicant(s) has provided to Lawrence
+    Financial Group. It has been determined that the applicant(s) is eligible and qualified to meet the
+    financial requirements of the proposed product and loan amount. The pre-qualification is based upon
+    the following information:</p>
+</div>
+<div class="border-lfgblue my-1 border-3 border-bottom p-3">
+  <div class="mx-auto">
+  <div class="row mb-2">
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Purchase Price:</div>
+      <div class="fw-normal w-50">$$$,$$$</div>
+    </div>
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Loan Amount:</div>
+      <div class="fw-normal w-50">$350,000</div>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Loan Type:</div>
+      <div class="fw-normal w-50">Hard Money</div>
+    </div>
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Rate / APR:</div>
+      <div class="fw-normal w-50">Floating</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Loan Term:</div>
+      <div class="fw-normal w-50">Months</div>
+    </div>
+    <div class="col-md-6 d-flex">
+      <div class="fw-bold w-50">Occupancy:</div>
+      <div class="fw-normal w-50">Months</div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+ <!-- Paragraph and List Section -->
+ <div class="mt-4">
+  <p>
+    This mortgage loan pre-qualification is further based upon current market interest rates and the representations
+    provided by the applicant(s). It is also subject to qualification at the locked interest rate and program once formal
+    application, including a property address, has been submitted by applicant(s). This mortgage pre-qualification does
+    not guarantee loan approval and is not a commitment for a loan in any terms. The approval for a loan will require
+    at a minimum:
+  </p>
+  <ul>
+    <li>A fully executed sales contract</li>
+    <li>Verification of the information, such as income, assets, and employment that the applicant(s) has provided, which must remain unchanged until the time of closing</li>
+    <li>The transaction complies with our chosen wholesale lender’s underwriting and processing requirements</li>
+    <li>The subject property satisfies our chosen wholesale lender’s requirements, including but not limited to appraisal, title, property inspection, condition, and/or any applicable insurance (hazard and/or flood)</li>
+    <li>Also, any other requirements needed for verification</li>
+  </ul>
+  <p>
+    Applicant(s) shall bear the full responsibility of the accuracy of documents requested from Lawrence Financial Group.
+    All documents provided will be verified for authenticity and accuracy. Lawrence Financial Group reserves the right
+    to withdraw this pre-qualification in the event any material risk or conditions are not met by the applicant(s).
+    This pre-qualification is solely for the benefit of the parties hereto. There are no unwritten or oral agreements.
+  </p>
+  <p><strong>Warmest regards,</strong></p>
+</div>
+
+
+<div class="mt-5 mb-3 p-3">
+  <div class="row">
+    <!-- Left: Company Contact -->
+    <div class="col-md-6 small">
+      <p class="mb-0 fw-bold">LFG Lending</p>
+      <p class="mb-0">name@lfglending.com</p>
+      <p class="mb-0">614-000-0000</p>
+    </div>
+
+    <!-- Right: Signed and Date -->
+    <div class="col-md-6 text-end">
+      <p class="mb-1"><strong>Signed:</strong> ______________________</p>
+      <p class="mb-0"><strong>Date:</strong> ________________________</p>
+    </div>
+  </div>
+</div>
+
+
+</div>
+{% endblock content %}

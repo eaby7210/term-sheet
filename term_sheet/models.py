@@ -111,4 +111,27 @@ class TermSheet(models.Model):
 
     def __str__(self):
         return f"PDF for {self.term_data.borrower} {self.term_data.opportunity.ghl_id}"
+
+
+class PreApproval(models.Model):
+    date = models.DateField()
+    address = models.CharField(max_length=255)
+    llc_name = models.CharField(max_length=255)
+    purchase_price = models.DecimalField(max_digits=12, decimal_places=2)
+    loan_type = models.CharField(max_length=255)
+    loan_term = models.CharField(max_length=255)  
+    loan_amount = models.DecimalField(max_digits=12, decimal_places=2)
+    rate_apr = models.DecimalField(max_digits=12, decimal_places=4)
+    occupancy = models.CharField(max_length=100)
+    applicant = models.CharField(max_length=255)
+    opportunity = models.OneToOneField(Opportunity, on_delete=models.CASCADE, related_name="preapprovals")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"PreApproval for {self.applicant} on {self.date}"
+    
+class PreApprovalSheet(models.Model):
+    pre_approval = models.OneToOneField(PreApproval, on_delete=models.CASCADE, related_name='pre_approval')
+    pdf_file = models.FileField(upload_to='pre_approval_pdf_sheets/',null=True, blank=True)
     

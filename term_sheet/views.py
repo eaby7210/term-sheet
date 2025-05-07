@@ -11,6 +11,7 @@ import pdfkit
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import FormView, UpdateView
+from django.views.generic import TemplateView
 from rest_framework.response import Response
 from rest_framework import viewsets,status
 from rest_framework.decorators import action
@@ -19,10 +20,11 @@ from django_filters.rest_framework import DjangoFilterBackend
 from contacts.services import ContactServices
 from .services import PipelineServices
 from .forms import TermForm
-from .models import Opportunity,TermData, TermSheet,Pipeline
+from .models import Opportunity,TermData, TermSheet,Pipeline, PreApproval, PreApprovalSheet
 from .serializers import (
     OpportunitySerializer,TermDataSerializers,TermSheetSerializer,
-    TermDataRetriveSerializers)
+    TermDataRetriveSerializers, PreApprovalSerializer,
+    PreApprovalPDFSerializer,PreApprovaRetrieveSerializer)
 from xhtml2pdf import pisa
 from io import BytesIO
 
@@ -132,6 +134,10 @@ class OpportunityWebhookAPIView(APIView):
             print(f"error: {str(e)}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+class PreApprovalView(TemplateView):
+    template_name = "pages/pre_approval.html"
+
 class TermSheetView(FormView):
     template_name = "pages/term_sheet.html"  
     form_class = TermForm
@@ -221,3 +227,51 @@ class TermSheetViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["term_data__opportunity__ghl_id"]
     search_fields = ["term_data__borrower"]
+    
+class PreApprovalViewSet(viewsets.ModelViewSet):
+    queryset = PreApproval.objects.all().order_by('-created_at')
+    lookup_field = "opportunity"
+    
+    def get_serializer_class(self):
+        if hasattr(self, 'action') and self.action in ['list', 'retrieve']:
+            return PreApprovaRetrieveSerializer
+        elif hasattr(self, 'action') and self.action in ['create', 'update']:
+            return PreApprovalSerializer 
+        return PreApprovalSerializer
+
+    @action(detail=True, methods=["POST"], url_path='generate_pdf')
+    def generate_pdf(self, request, opportunity=None):
+        """Generate and store a PDF using Django's model system."""
+        data = get_object_or_404(PreApproval, opportunity__ghl_id=opportunity)
+        
+        html_content = render_to_string("pages/pre_approval.html", {"data":data})
+        options = {
+            "page-size": "A4",
+            "margin-top": "0in",
+            "margin-right": "0in",
+            "margin-bottom": "0in",
+            "margin-left": "0in",
+            "encoding": "UTF-8",
+            "enable-local-file-access": "",
+        }
+
+        try:
+            # Generate PDF as binary data
+            pdf_binary = pdfkit.from_string(html_content, False, options=options)
+
+            # Create or update the TermSheet object
+            sheet, created = PreApprovalSheet.objects.get_or_create(pre_approval=data)
+
+            # Save PDF using Django's FileField (ContentFile)
+            pdf_filename = f"pre_approval_{opportunity}.pdf"
+            sheet.pdf_file.save(pdf_filename, ContentFile(pdf_binary), save=True)
+
+            # Serialize the TermSheet object
+            serializer = PreApprovalSerializer(sheet)
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+  

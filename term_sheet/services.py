@@ -136,8 +136,16 @@ class OpportunityServices:
             print(f"Opportunity service Error: {json.dumps(response.json(), indent=4)}")
             return None,None
     
+    
     @staticmethod
-    def pull_opportunities():
-        location_ids = OAuthToken.objects.values_list('LocationId', flat=True)
-        for location_id in location_ids:
-            pass
+    def put_opportunities():
+        pass
+    
+    # @staticmethod
+    # def 
+    
+    # @staticmethod
+    # def pull_opportunities():
+    #     location_ids = OAuthToken.objects.values_list('LocationId', flat=True)
+    #     for location_id in location_ids:
+    #         pass
