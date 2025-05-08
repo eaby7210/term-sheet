@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 from .models import Contact
 from core.services import OAuthServices
+from core.models import CustomField
 from django.contrib.contenttypes.models import ContentType
 from django.apps import apps
 
@@ -148,3 +149,52 @@ class ContactServices:
             raise ContactServiceError(f"API request failed: {response.status_code}")
 
 
+    @staticmethod
+    def update_contact_with_pdf(contact: Contact, upload_response :dict, customfield: CustomField):
+        '''
+        Update an opportunity in GHL with the uploaded PDF details.
+        '''
+        token_obj = OAuthServices.get_valid_access_token_obj()
+        url = f"{BASE_URL}/contacts/{contact.id}"
+        headers = {
+            "Authorization": f"Bearer {token_obj.access_token}",
+            "Content-Type": "application/json",
+            "Version": API_VERSION,
+        }
+        
+        if not upload_response:
+            print("No uploaded file response provided.")
+            return None
+        
+        meta_data = upload_response.get("meta", [])[0]
+        if not meta_data:
+            print("Uploaded file metadata missing.")
+            return None
+        
+        file_payload = {
+            "customFields": [
+                {
+                    "id": customfield.id,
+                    "field_value": [
+                        {
+                            "url": meta_data.get("url"),
+                            "meta": {
+                                "mimetype": meta_data.get("mimetype"),
+                                "name": meta_data.get("originalname"),
+                                "size": meta_data.get("size")
+                            },
+                            "deleted": False
+                        }
+                    ]
+                }
+            ]
+        }
+        
+        response = requests.put(url, headers=headers, json=file_payload)
+        
+        if response.status_code == 200:
+            print(f"Successfully updated Contact {contact.id} with PDF details.")
+            return response.json()
+        else:
+            print(f"Failed to update Contact {contact.id}: {response.text}")
+            return None

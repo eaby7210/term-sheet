@@ -136,6 +136,7 @@ class CustomfieldServices:
         else:
             raise CustomFieldServiceError(f"API request failed: {response.status_code}")
 
+    
     @staticmethod
     def pull_customfields(model):
         """
