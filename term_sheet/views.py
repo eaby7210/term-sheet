@@ -138,6 +138,14 @@ class OpportunityWebhookAPIView(APIView):
 class PreApprovalView(TemplateView):
     template_name = "pages/pre_approval.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Example: get all pre-approvals and pass to template
+        context['data'] = PreApproval.objects.all().first()
+        # You can also add additional context like titles, filters, or dummy data
+        context['page_title'] = "Pre-Approval Records"
+        return context
+
 class TermSheetView(FormView):
     template_name = "pages/term_sheet.html"  
     form_class = TermForm
@@ -267,7 +275,7 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
             sheet.pdf_file.save(pdf_filename, ContentFile(pdf_binary), save=True)
 
             # Serialize the TermSheet object
-            serializer = PreApprovalSerializer(sheet)
+            serializer = PreApprovalPDFSerializer(sheet)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

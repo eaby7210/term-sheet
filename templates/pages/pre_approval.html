@@ -45,64 +45,52 @@
       <div class="d-flex justify-content-between" style="min-height: 80px;">
         <!-- Left-aligned bottom -->
         <div class="align-self-end">
-          <p class="mb-0 bg-lfgblue fw-bold">Applicant(s):</p>
+          <p class="mb-0 bg-lfgblue fw-bold">Applicant(s): {{data.applicant}}</p>
         </div>
 
         <!-- Center-aligned center -->
         <div class="align-self-center text-center">
-          <p class="mb-0 fw-bold">(Name)</p>
-            <p class="mb-0 fw-bold"> (Property Address)</p>
+          <p class="mb-0 fw-bold">{{data.llc_name}}</p>
+            <p class="mb-0 fw-bold"> {{data.address}}</p>
         </div>
 
         <!-- Right-aligned top -->
         <div class="align-self-start text-end">
-          <p class="mb-0 fw-bold bg-lfggreen">01/01/01</p>
+          <p class="mb-0 fw-bold bg-lfggreen">{{data.date}}</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="border-lfgblue my-1 border-3 border-bottom ">
-  <p>This pre-qualification is based on the information that the applicant(s) has provided to Lawrence
+  <p>
+   
+    This pre-qualification is based on the information that the applicant(s) has provided to Lawrence
     Financial Group. It has been determined that the applicant(s) is eligible and qualified to meet the
     financial requirements of the proposed product and loan amount. The pre-qualification is based upon
     the following information:</p>
 </div>
 <div class="border-lfgblue my-1 border-3 border-bottom p-3">
-  <div class="mx-auto">
-  <div class="row mb-2">
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Purchase Price:</div>
-      <div class="fw-normal w-50">$$$,$$$</div>
-    </div>
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Loan Amount:</div>
-      <div class="fw-normal w-50">$350,000</div>
-    </div>
-  </div>
-
-  <div class="row mb-2">
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Loan Type:</div>
-      <div class="fw-normal w-50">Hard Money</div>
-    </div>
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Rate / APR:</div>
-      <div class="fw-normal w-50">Floating</div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Loan Term:</div>
-      <div class="fw-normal w-50">Months</div>
-    </div>
-    <div class="col-md-6 d-flex">
-      <div class="fw-bold w-50">Occupancy:</div>
-      <div class="fw-normal w-50">Months</div>
-    </div>
-  </div>
-</div>
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 25%;" class="fw-bold">Purchase Price:</td>
+      <td style="width: 25%;" class="fw-normal">$ {{ data.purchase_price }}</td>
+      <td style="width: 25%;" class="fw-bold">Loan Amount:</td>
+      <td style="width: 25%;" class="fw-normal">${{ data.loan_amount }}</td>
+    </tr>
+    <tr>
+      <td class="fw-bold">Loan Type:</td>
+      <td class="fw-normal">{{ data.loan_type }}</td>
+      <td class="fw-bold">Rate / APR:</td>
+      <td class="fw-normal">{{ data.rate_apr }}</td>
+    </tr>
+    <tr>
+      <td class="fw-bold">Loan Term:</td>
+      <td class="fw-normal">{{ data.loan_term }}</td>
+      <td class="fw-bold">Occupancy:</td>
+      <td class="fw-normal">{{ data.occupancy }}</td>
+    </tr>
+  </table>
 </div>
 
 
