@@ -143,15 +143,24 @@ class PreApprovalSerializer(serializers.ModelSerializer):
             'opportunity',
         ]
     def validate_opportunity(self, value):
-        # If we're updating and the opportunity is already assigned to this instance, allow it
         instance = getattr(self, 'instance', None)
-        if instance and instance.opportunity.ghl_id == value.ghl_id:
+        print("VALIDATE OPPORTUNITY")
+        print("Incoming value.ghl_id:", value.ghl_id)
+        
+        if instance:
+            print("Existing instance.opportunity.ghl_id:", instance.opportunity.ghl_id)
+            if instance.opportunity.ghl_id == value.ghl_id:
+                print("Same opportunity – allow update")
+                return value
 
-            return value
-        if PreApproval.objects.filter(opportunity=value).exists():
-            print("pre approval with this opportunity already exists.")
+        existing = PreApproval.objects.filter(opportunity=value)
+        print("Existing PreApproval for this opportunity:", existing)
+        
+        if existing.exists():
+            print("ValidationError triggered")
             raise serializers.ValidationError("pre approval with this opportunity already exists.")
         return value
+
 
 class PreApprovaRetrieveSerializer(serializers.ModelSerializer):
     opportunity=OpportunitySerializer(read_only=True)
