@@ -238,7 +238,7 @@ class TermSheetViewSet(viewsets.ModelViewSet):
     
 class PreApprovalViewSet(viewsets.ModelViewSet):
     queryset = PreApproval.objects.all().order_by('-created_at')
-    lookup_field = "opportunity"
+    lookup_field = "opportunity__ghl_id"
     
     def get_serializer_class(self):
         if hasattr(self, 'action') and self.action in ['list', 'retrieve']:
