@@ -243,7 +243,9 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=True)
+        print(instance)
         serializer.is_valid(raise_exception=True)
+        print("valid")
         self.perform_update(serializer)
 
         if getattr(instance, '_prefetched_objects_cache', None):
