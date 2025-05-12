@@ -148,7 +148,8 @@ class PreApprovalSerializer(serializers.ModelSerializer):
         if instance and instance.opportunity == value:
             return value
         if PreApproval.objects.filter(opportunity=value).exists():
-            raise serializers.ValidationError("pre approval with this opportunity already exists.")
+            print("pre approval with this opportunity already exists.")
+            # raise serializers.ValidationError("pre approval with this opportunity already exists.")
         return value
 
 class PreApprovaRetrieveSerializer(serializers.ModelSerializer):
