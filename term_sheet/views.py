@@ -242,6 +242,7 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
     
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
+        print("UPDATE request.data:", request.data) 
         print("Updating PreApproval for opportunity:", instance.opportunity.ghl_id)
         serializer = self.get_serializer(instance, data=request.data, partial=True)
         print(instance)
