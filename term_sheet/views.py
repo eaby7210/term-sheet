@@ -240,11 +240,13 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
     queryset = PreApproval.objects.all().order_by('-created_at')
     lookup_field = "opportunity__ghl_id"
     
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+    
     def get_serializer_class(self):
         if hasattr(self, 'action') and self.action in ['list', 'retrieve']:
             return PreApprovaRetrieveSerializer
-        elif hasattr(self, 'action') and self.action in ['create', 'update']:
-            return PreApprovalSerializer 
         return PreApprovalSerializer
 
     @action(detail=True, methods=["POST"], url_path='generate_pdf')
