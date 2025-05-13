@@ -51,11 +51,14 @@ INSTALLED_APPS = [
     'bootstrap5',
     'core',
     'contacts',
+    "corsheaders",
     # 'core',
     'term_sheet',
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
