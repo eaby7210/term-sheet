@@ -262,9 +262,12 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
         return PreApprovalSerializer
 
     @action(detail=True, methods=["POST"], url_path='generate_pdf')
-    def generate_pdf(self, request, pk=None):
+    def generate_pdf(self, request, **kwargs):
         """Generate and store a PDF using Django's model system."""
-        data = get_object_or_404(PreApproval, **{self.lookup_field: pk})
+        ghl_id = kwargs.get("opportunity__ghl_id")
+        if not ghl_id:
+            return Response({"error": "Missing opportunity__ghl_id"}, status=400)
+        data = get_object_or_404(PreApproval, opportunity__ghl_id=ghl_id)
         
         html_content = render_to_string("pages/pre_approval.html", {"data":data})
         options = {
@@ -285,7 +288,7 @@ class PreApprovalViewSet(viewsets.ModelViewSet):
             sheet, created = PreApprovalSheet.objects.get_or_create(pre_approval=data)
 
             # Save PDF using Django's FileField (ContentFile)
-            pdf_filename = f"pre_approval_{pk}.pdf"
+            pdf_filename = f"pre_approval_{ghl_id}.pdf"
             sheet.pdf_file.save(pdf_filename, ContentFile(pdf_binary), save=True)
 
             # Serialize the TermSheet object
