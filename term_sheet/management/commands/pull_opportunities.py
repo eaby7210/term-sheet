@@ -26,7 +26,7 @@ class Command(BaseCommand):
         batch_size = 100  
 
         while True:
-            opp_data, meta = OpportunityServices.get_opportunity(pipeline.LocationId,query=query)
+            opp_data, meta = OpportunityServices.get_opportunity(location_id=pipeline.LocationId,query=query)
 
             if not opp_data:
                 break  # Exit if no more data

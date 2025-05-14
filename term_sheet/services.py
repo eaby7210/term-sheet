@@ -97,10 +97,11 @@ class PipelineServices:
 class OpportunityServices:
     
     @staticmethod
-    def get_opportunity(url=None,query :dict =None, limit=LIMIT_PER_PAGE):
+    def get_opportunity(url=None, location_id=None,query :dict =None, limit=LIMIT_PER_PAGE):
         '''
         Fetch opportunities
         '''
+        print(location_id)
         token_obj = OAuthServices.get_valid_access_token_obj()
         
         headers = {

@@ -20,10 +20,9 @@ ALLOWED_HOSTS = ["localhost","54.227.190.42","link.kicknsaas.com",
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-"",
 "http://172.31.82.119",
     "http://127.0.0.1:3000",
-    'https://main.d18arj2ipu533e.amplifyapp.com/'
+    'https://main.d18arj2ipu533e.amplifyapp.com'
 
 ]
 
@@ -32,7 +31,7 @@ CSRF_TRUSTED_ORIGINS = [
 "https://main.dfzm886lwk9em.amplifyapp.com",
     "http://127.0.0.1:3000",
 "http://172.31.82.119/",
-'https://main.d18arj2ipu533e.amplifyapp.com/',
+'https://main.d18arj2ipu533e.amplifyapp.com',
 
 ]
 
