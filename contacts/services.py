@@ -178,11 +178,7 @@ class ContactServices:
                     "field_value": [
                         {
                             "url": meta_data.get("url"),
-                            "meta": {
-                                "mimetype": meta_data.get("mimetype"),
-                                "name": meta_data.get("originalname"),
-                                "size": meta_data.get("size")
-                            },
+                            "meta": meta_data,
                             "deleted": False
                         }
                     ]
