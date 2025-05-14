@@ -29,7 +29,7 @@ class Opportunity(models.Model):
     contact = models.ForeignKey('contacts.Contact', on_delete=models.SET_DEFAULT, null=True, blank=True,default=None)
     status = models.CharField(max_length=50, db_index=True)
     created_at = models.DateTimeField(db_index=True)
-    updated_at = models.DateTimeField()
+    updated_at = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return f"Opportunity id:{self.ghl_id} - {self.name}"
