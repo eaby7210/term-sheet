@@ -76,7 +76,7 @@
       <td style="width: 25%;" class="fw-bold">Purchase Price:</td>
       <td style="width: 25%;" class="fw-normal">$ {{ data.purchase_price }}</td>
       <td style="width: 25%;" class="fw-bold">Loan Amount:</td>
-      <td style="width: 25%;" class="fw-normal">${{ data.loan_amount }}</td>
+      <td style="width: 25%;" class="fw-normal">$ {{ data.loan_amount }}</td>
     </tr>
     <tr>
       <td class="fw-bold">Loan Type:</td>
@@ -121,22 +121,27 @@
 </div>
 
 
-<div class="mt-5 mb-3 p-3">
-  <div class="row">
-    <!-- Left: Company Contact -->
-    <div class="col-md-6 small">
-      <p class="mb-0 fw-bold">LFG Lending</p>
-      <p class="mb-0">name@lfglending.com</p>
-      <p class="mb-0">614-000-0000</p>
-    </div>
+<table width="100%" style="margin-top: 40px; margin-bottom: 20px; padding: 15px; font-size: 14px;">
+  <tr valign="top">
+    <!-- Left: Company Contact or Assigned To -->
+    <td width="50%" style="font-size: 12px;">
+      {% if data.assigned_to %}
+        <p style="margin: 0; font-weight: bold;">{{ data.assigned_to }}</p>
+      {% else %}
+        <p style="margin: 0; font-weight: bold;">LFG Lending</p>
+        <p style="margin: 0;">name@lfglending.com</p>
+        <p style="margin: 0;">614-000-0000</p>
+      {% endif %}
+    </td>
 
     <!-- Right: Signed and Date -->
-    <div class="col-md-6 text-end">
-      <p class="mb-1"><strong>Signed:</strong> ______________________</p>
-      <p class="mb-0"><strong>Date:</strong> ________________________</p>
-    </div>
-  </div>
-</div>
+    <td width="50%" align="right" style="font-size: 12px;">
+      <p style="margin: 0 0 5px 0;"><strong>Signed:</strong> ______________________</p>
+      <p style="margin: 0;"><strong>Date:</strong> {{ data.date }}</p>
+    </td>
+  </tr>
+</table>
+
 
 
 </div>

@@ -124,6 +124,7 @@ class PreApproval(models.Model):
     rate_apr = models.CharField(max_length=255,null=True, blank=True)
     occupancy = models.CharField(max_length=100,null=True, blank=True)
     applicant = models.CharField(max_length=255,null=True, blank=True)
+    assigned_to = models.CharField(max_length=255,null=True, blank=True)
     opportunity = models.OneToOneField(Opportunity, on_delete=models.CASCADE, related_name="preapprovals")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
