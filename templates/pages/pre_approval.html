@@ -95,8 +95,8 @@
 
 
 
- <!-- Paragraph and List Section -->
- <div class="mt-4">
+<!-- Paragraph and List Section -->
+<div class="mt-4">
   <p>
     This mortgage loan pre-qualification is further based upon current market interest rates and the representations
     provided by the applicant(s). It is also subject to qualification at the locked interest rate and program once formal
@@ -117,11 +117,13 @@
     to withdraw this pre-qualification in the event any material risk or conditions are not met by the applicant(s).
     This pre-qualification is solely for the benefit of the parties hereto. There are no unwritten or oral agreements.
   </p>
-  <p><strong>Warmest regards,</strong></p>
 </div>
 
-
+<!-- Table for Warmest Regards, Contact & Signature -->
 <table width="100%" style="margin-top: 40px; margin-bottom: 20px; padding: 15px; font-size: 14px;">
+  <tr>
+    <td colspan="2" style="padding-bottom: 15px;"><strong>Warmest regards,</strong></td>
+  </tr>
   <tr valign="top">
     <!-- Left: Company Contact or Assigned To -->
     <td width="50%" style="font-size: 12px;">
@@ -136,8 +138,18 @@
 
     <!-- Right: Signed and Date -->
     <td width="50%" align="right" style="font-size: 12px;">
-      <p style="margin: 0 0 5px 0;"><strong>Signed:</strong> ______________________</p>
-      <p style="margin: 0;"><strong>Date:</strong> {{ data.date }}</p>
+      <table style="width: 100%; text-align: right;">
+        <tr>
+          <td style="white-space: nowrap;"><strong>Signed:</strong></td>
+          <td style="border-bottom: 1px solid #000; width: 200px;">&nbsp;</td>
+        </tr>
+        <tr>
+          <td style="white-space: nowrap;"><strong>Date:</strong></td>
+          <td style="border-bottom: 1px solid #000; width: 200px;">
+            {{ data.date|default:"&nbsp;" }}
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>
